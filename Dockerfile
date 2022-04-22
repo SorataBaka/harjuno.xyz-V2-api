@@ -16,4 +16,4 @@ RUN npm run build
 
 RUN tsc
 
-CMD ["npm", "run", "build:docker"]
+CMD ["npm", "run", "start:docker"]
