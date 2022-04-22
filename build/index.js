@@ -12,6 +12,7 @@ const serve_favicon_1 = __importDefault(require("serve-favicon"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const nanoid_1 = require("nanoid");
 const mongoose_1 = __importDefault(require("mongoose"));
+const versionRouter_1 = __importDefault(require("./src/versionRouter"));
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 if (!MONGO_URI)
@@ -22,10 +23,11 @@ app.use((0, morgan_1.default)("dev"));
 app.use((0, compression_1.default)());
 app.use((0, serve_favicon_1.default)(`${__dirname}/../favicon.ico`));
 app.use(body_parser_1.default.json());
+app.use(versionRouter_1.default);
 app.get("/", (_req, res) => {
     return res.status(200).json({
         status: 200,
-        message: "Hello World",
+        message: "harjuno.xyz website api version 1.0.0",
         data: {},
     });
 });
