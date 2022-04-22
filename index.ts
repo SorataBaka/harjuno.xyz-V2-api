@@ -25,7 +25,11 @@ app.get("/", (_req: Request, res: Response) => {
 	return res.status(200).json({
 		status: 200,
 		message: "harjuno.xyz website api version 1.0.0",
-		data: {},
+		data: {
+			Versions: {
+				V1: "https://api.harjuno.xyz/v1",
+			},
+		},
 	});
 });
 

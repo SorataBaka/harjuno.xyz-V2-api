@@ -7,7 +7,8 @@
 		"start": "tsc && node build/index.js",
 		"build": "tsc",
 		"lint": "eslint .",
-		"lint:fix": "eslint --fix ."
+		"lint:fix": "eslint --fix .",
+		"start:docker": "node build/index.js"
 	},
 	"keywords": [
 		"api",
