@@ -5,7 +5,6 @@ import morgan from "morgan";
 import compression from "compression";
 import serveFavicon from "serve-favicon";
 import bodyParser from "body-parser";
-import { nanoid } from "nanoid";
 import mongoose from "mongoose";
 
 import versionRouter from "./src/versionRouter";
@@ -39,6 +38,4 @@ app.listen(PORT, async () => {
 		return undefined;
 	});
 	if (!mongooseConnection) throw new Error("Mongoose connection failed");
-	const newID = nanoid();
-	consola.info(`New ID: ${newID}`);
 });
