@@ -6,6 +6,7 @@ import compression from "compression";
 import serveFavicon from "serve-favicon";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import timeout from "connect-timeout";
 
 import versionRouter from "./src/versionRouter";
 import secretMessageSchema from "./src/lib/schema/secretMessageSchema";
@@ -23,7 +24,18 @@ const localHandler = (_req: Request, res: Response, next: NextFunction) => {
 	return next();
 };
 
+const timeoutHandler = (req: Request, res: Response, next: NextFunction) => {
+	if (!req.timedout) return next();
+	return res.status(408).json({
+		status: 408,
+		message: "Request Timeout",
+		data: {},
+	});
+};
+
 const app = express();
+app.use(timeout("10s"));
+app.use(timeoutHandler);
 app.use(localHandler);
 app.use(express.json());
 app.use(morgan("dev"));
@@ -31,7 +43,9 @@ app.use(compression());
 app.use(serveFavicon(`${__dirname}/../favicon.ico`));
 app.use(bodyParser.json());
 app.use(versionRouter);
+
 app.all("/", (_req: Request, res: Response) => {
+	console.log(_req.timedout);
 	return res.status(200).json({
 		status: 200,
 		message: "harjuno.xyz website api version 1.0.0",
@@ -42,7 +56,6 @@ app.all("/", (_req: Request, res: Response) => {
 		},
 	});
 });
-
 app.listen(PORT, async () => {
 	consola.info(`Server started on port ${PORT}`);
 	const mongooseConnection = await mongoose.connect(MONGO_URI).catch(() => {
